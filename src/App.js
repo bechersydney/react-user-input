@@ -8,10 +8,11 @@ function App() {
         setUsers((prevState) => [user, ...prevState]);
     };
     return (
-        <div>
+        //react fragments
+        <>
             <User addUser={addUser} />
             <UserList users={users} />
-        </div>
+        </>
     );
 }
 

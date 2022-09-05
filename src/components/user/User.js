@@ -1,12 +1,13 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
+import Wrapper from "../helpers/Wrapper";
 import Button from "../UI/Button";
 import Card from "../UI/Card";
 import ErrorModal from "../UI/ErrorModal";
 import classes from "./User.module.css";
 
 const User = ({ addUser }) => {
-    let [enteredUsername, setUsername] = useState("");
-    let [enteredAge, setAge] = useState("");
+    const userRef = useRef(); // reading the value directly rather than changing state on key stroke
+    const ageRef = useRef();
     let [isValid, setValid] = useState(true);
     const [error, setError] = useState({
         title: "An error occured",
@@ -15,12 +16,16 @@ const User = ({ addUser }) => {
 
     const addNewUserHandler = (e) => {
         e.preventDefault();
+
+        let enteredUsername = userRef.current.value;
+        let enteredAge = ageRef.current.value;
         if (!enteredUsername.trim() || !enteredAge.trim()) {
             setValid(() => {
                 setError({
                     ...error,
                     message: "Enter valid age and name (non empty)",
                 });
+                return false;
             });
 
             return;
@@ -41,16 +46,10 @@ const User = ({ addUser }) => {
             name: enteredUsername,
             age: enteredAge,
         });
-        setUsername("");
-        setAge("");
-    };
-    const usernameHandler = (e) => {
-        const value = e.target.value;
-        setUsername(value);
-    };
-    const ageFormHandler = (e) => {
-        const value = e.target.value;
-        setAge(value);
+        userRef.current.value = "";
+        ageRef.current.value = "";
+        // enteredUsername = "";
+        // enteredAge = "";
     };
 
     const onCloseModalHandler = () => {
@@ -58,7 +57,9 @@ const User = ({ addUser }) => {
     };
 
     return (
-        <div>
+        // react wrapper
+        <Wrapper>
+            {/* as if this renders here but this is not it is rendered outside */}
             {!isValid && (
                 <ErrorModal
                     message={error.message}
@@ -70,22 +71,14 @@ const User = ({ addUser }) => {
                 <form onSubmit={addNewUserHandler}>
                     <div>
                         <label htmlFor="username">Username</label>
-                        <input
-                            type="text"
-                            value={enteredUsername}
-                            onChange={usernameHandler}
-                        />
+                        <input type="text" ref={userRef} />
                         <label htmlFor="">Age</label>
-                        <input
-                            type="number"
-                            value={enteredAge}
-                            onChange={ageFormHandler}
-                        />
+                        <input type="number" ref={ageRef} />
                         <Button type="submit">Add user</Button>
                     </div>
                 </form>
             </Card>
-        </div>
+        </Wrapper>
     );
 };
 export default User;
