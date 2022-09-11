@@ -8,6 +8,7 @@ import classes from "./ErrorModal.module.css";
 const Backdrop = ({ onClick }) => {
     return <div className={classes.backdrop} onClick={() => onClick()} />;
 };
+// add comment for modal
 
 const ModalOverlay = ({ title, message, onClick }) => {
     return (
