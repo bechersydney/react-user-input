@@ -57,6 +57,7 @@ const User = ({ addUser }) => {
     };
 
     return (
+        // this is comment
         // react wrapper rather than putting div it will slow down the app since the browser will render the useless div
         <Wrapper>
             {/* as if this renders here but this is not it is rendered outside */}
