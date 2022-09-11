@@ -4,6 +4,7 @@ import Button from "./Button";
 import Card from "./Card";
 import classes from "./ErrorModal.module.css";
 
+// backdrop of modal
 const Backdrop = ({ onClick }) => {
     return <div className={classes.backdrop} onClick={() => onClick()} />;
 };
